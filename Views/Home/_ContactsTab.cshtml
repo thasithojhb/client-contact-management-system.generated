@@ -1,0 +1,83 @@
+﻿@model List<client_contact_management_system.Models.ContactViewModel>
+
+<div>
+    <h2>Contact Information</h2>
+
+    @if (Model == null || !Model.Any())
+    {
+        <p>No Contact(s) Found.</p>
+    }
+    else
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Surname</th>
+                    <th>Email Adress</th>
+                    <th>Linked Clients</th>
+                </tr>
+            </thead>
+            <tbody id="contactList">
+                @foreach (var contact in Model)
+                {
+                    <tr>
+                        <td>@contact.Name</td>
+                        <td>@contact.Surname</td>
+                        <td>@contact.Email</td>
+                        <td>@contact.Clients</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+
+    <form id="createContactForm">
+        <div class="form-group">
+            <label for="name">Name:</label>
+            <input type="text" class="form-control" id="name" name="name" required>
+        </div>
+        <div class="form-group">
+            <label for="surname">Surname</label>
+            <input type="text" class="form-control" id="surname" name="surname" required>
+        </div>
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" class="form-control" id="email" name="email">
+        </div>
+    </form>
+    <button type="button" onclick="addClient()" class="btn btn-primary">Submit</button>
+</div>
+
+<script>
+    function addClient() {
+        var url = '@Url.Action("CreateContact")';
+        var clientData = {
+            Name: $("#name").val(),
+            Surname: $("#surname").val(),
+            Email: $("#email").val()
+        };
+
+        $.post(url, clientData, function (data) {
+            $('#contactList').empty();
+
+            data.forEach(function (c) {
+                var newRow = $('<tr>')
+                    .append($('<td>').text(c.name))
+                    .append($('<td>').text(c.surname))
+                    .append($('<td>').text(c.email));
+
+                $('#contactList').append(newRow);
+            });
+
+            console.log('Success');
+
+            $('#createContactForm')[0].reset();
+        }).fail(function (xhr, status, error) {
+            console.error('Error occurred: ' + error);
+            alert('An error occurred: ' + error);
+        });
+    }
+</script>
+
+

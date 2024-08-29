@@ -1,7 +1,16 @@
+using client_contact_management_system.Models;
+using client_contact_management_system.Models.Interfaces;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddDbContext<ClientContactManagementContext>(options =>
+    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddScoped<IRepository, Repository>();
 
 var app = builder.Build();
 
