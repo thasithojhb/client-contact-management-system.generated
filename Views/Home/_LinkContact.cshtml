@@ -1,0 +1,75 @@
+﻿@model client_contact_management_system.Models.LinkContactViewModel
+
+<div class="modal fade" id="inputModal" tabindex="-1" role="dialog" aria-labelledby="inputModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+           
+            <div class="modal-header">
+                <h5 class="modal-title" id="inputModalLabel">Input Form</h5>
+                <button type="button" class="close" onclick="closeModal()" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+           
+            <div class="modal-body">
+                <form id="inputForm">
+                    <div class="form-group">
+                        <label for="dropdown1">Select a Client</label>
+                        <select class="form-control" id="dropdown1" required>
+                            @foreach (var client in Model.clients)
+                            {
+                                <option value="@client.Id">@client.Name</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="dropdown2">Select a Contact</label>
+                        <select class="form-control" id="dropdown2" required>
+                            @foreach (var client in Model.contacts)
+                            {
+                                <option value="@client.Id">@client.Name</option>
+                            }
+                        </select>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="closeModal()" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="saveInput()">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    function closeModal() {
+        $('#inputModal').modal('hide');
+    }
+    function saveInput() {
+        var clientId = $('#dropdown1').val();
+        var contactId = $('#dropdown2').val();
+
+        if (clientId && contactId) {
+
+            console.log('Selected Option 1: ' + clientId);
+            console.log('Selected Option 2: ' + contactId);
+
+            var url = '@Url.Action("LinkContact")';
+            // Example: Sending data to the server via AJAX
+            $.post(url, { ClietId: clientId, ContactId: contactId }, function (response) {
+                alert('Data saved successfully!');
+                window.location.href = window.location.origin + window.location.pathname + "#client";
+                $('#inputModal').modal('hide');
+            }).fail(function (xhr, status, error) {
+                alert('An error occurred: ' + error);
+            });
+        } else {
+            alert('Please select both options before saving.');
+        }
+    }
+
+</script>

@@ -48,7 +48,7 @@ public class HomeController : Controller
         //};
         return PartialView("_ContactsTab", model: _repository.GetAllContacts());
     }
-
+    
     [HttpPost]
     public IActionResult CreateContact(ContactViewModel Contact)
     {
@@ -61,4 +61,24 @@ public class HomeController : Controller
 
         return Json(_repository.GetAllContacts());
     }
+
+    public IActionResult LoadLinkContactModal()
+    {
+        return PartialView("_LinkContact", model: _repository.GetAllClientsAndContacts());
+    }
+
+    [HttpPost]
+    public IActionResult LinkContact(Linked linkedClientAndContact)
+    {
+        //if (_repository.ContactLinked(Contact.Email))
+        //{
+        //    ModelState.AddModelError("Email", "This email address is already in use.");
+        //    return BadRequest(ModelState);
+        //}
+        _repository.LinkContact(linkedClientAndContact);
+
+        return Json(_repository.GetLinks());
+    }
+
+
 }

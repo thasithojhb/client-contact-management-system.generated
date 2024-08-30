@@ -2,6 +2,9 @@
 
 <div>
     <h2>Client Information</h2>
+    <button type="button" class="btn btn-primary" onclick="linkContact()" data-toggle="modal" id="linkContactButton">
+        Link Contact
+    </button>
 
     @if (Model == null || !Model.Any())
     {
@@ -29,7 +32,6 @@
             </tbody>
         </table>
     }
-
     <form id="createClientForm">
         <div class="form-group">
             <label for="clientName">Client Name:</label>
@@ -41,9 +43,19 @@
         </div>
     </form>
     <button type="button" onclick="addClient()" class="btn btn-primary">Submit</button>
+  
+    <div id="modalContainer"></div>
 </div>
 
 <script>
+    function linkContact() {
+            var url = '@Url.Action("LoadLinkContactModal")';
+            $.get(url, function (data) {
+                $('#modalContainer').html(data);
+                $('#inputModal').modal('show');
+            });
+    };
+
     function addClient() {
         var url = '@Url.Action("CreateClient")';
         var clientData = {

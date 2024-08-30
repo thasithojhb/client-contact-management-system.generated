@@ -2,22 +2,28 @@
 {
     public interface IRepository
     {
-        IEnumerable<ClientViewModel> GetAllClients();
+        public IEnumerable<ClientViewModel> GetAllClients();
 
-        IEnumerable<ContactViewModel> GetAllContacts();
+        public IEnumerable<ContactViewModel> GetAllContacts();
 
-        void AddClient(ClientViewModel client);
+        public LinkContactViewModel GetAllClientsAndContacts();
 
-        void AddContact(ContactViewModel client);
+        public IEnumerable<Linked> GetLinks();
 
-        bool ContactExist(string email);
+        public void AddClient(ClientViewModel client);
 
-        void LinkClients(ClientViewModel client);
+        public void AddContact(ContactViewModel client);
 
-        void LinkContacts(ClientViewModel client);
+        public bool ContactExist(string email);
 
-        void UnLinkClient(ClientViewModel client);
+        public void LinkClients(Linked client);
 
-        void UnLinkContact(ClientViewModel client);
+        public void LinkContact(Linked client);
+
+        public bool ContactLinked(Linked client);
+
+        public void UnLinkClient(ClientViewModel client);
+
+        public void UnLinkContact(ClientViewModel client);
     }
 }
