@@ -26,9 +26,9 @@ public class HomeController : Controller
     }
 
     [HttpPost]
-    public IActionResult CreateClient(ClientViewModel client)
+    public IActionResult CreateClient(Client clientName)
     {
-        _repository.AddClient(client);
+        _repository.AddClient(clientName);
 
         return Json(_repository.GetAllClients());
     }

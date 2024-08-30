@@ -16,8 +16,13 @@ namespace client_contact_management_system.Models
             return _context.clients.OrderBy(c => c.Name).ToList();
         }
 
-        public void AddClient(ClientViewModel client)
+        public void AddClient(Client clientName)
         {
+            var client = new ClientViewModel
+            {
+                Name = clientName.Name,
+                ClientCode = GenerateClientCode(clientName.Name),
+            };
             _context.clients.Add(client);
             _context.SaveChanges();
         }
@@ -85,6 +90,43 @@ namespace client_contact_management_system.Models
         public void LinkClients(Linked client)
         {
             throw new NotImplementedException();
+        }
+
+        private string GenerateClientCode(string clientName)
+        {
+
+            var codeString = string.Empty;
+
+            if (!string.IsNullOrEmpty(clientName))
+            {
+                if (clientName.Length >= 3)
+                {
+                    var nameSubstring = clientName.Split(' ');
+
+                    if (nameSubstring.Length == 3)
+                    {
+                        codeString = nameSubstring[0].Substring(0, 1).ToUpper() + nameSubstring[1].Substring(0, 1).ToUpper() + nameSubstring[2].Substring(0, 1).ToUpper();
+                    }
+
+                    if (nameSubstring.Length == 1)
+                    {
+                         codeString = nameSubstring[0].Substring(0, 3).ToUpper();
+                    }
+
+                }
+                else
+                {
+                    Random rand = new Random();
+
+                    codeString = clientName.Length == 1 ? clientName.ToUpper() + (char)rand.Next(65, 91) + (char)rand.Next(65, 91) : clientName.ToUpper() + (char)rand.Next(65, 91);
+
+                }
+            }
+
+            var code = _context.clients.ToList().Count + 1;
+
+
+            return $"{codeString}{code:D3}"; ;
         }
     }
 }

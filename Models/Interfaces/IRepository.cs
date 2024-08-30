@@ -10,7 +10,7 @@
 
         public IEnumerable<Linked> GetLinks();
 
-        public void AddClient(ClientViewModel client);
+        public void AddClient(Client client);
 
         public void AddContact(ContactViewModel client);
 

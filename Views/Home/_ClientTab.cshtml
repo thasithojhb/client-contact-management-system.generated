@@ -37,10 +37,6 @@
             <label for="clientName">Client Name:</label>
             <input type="text" class="form-control" id="clientName" name="clientName" required>
         </div>
-        <div class="form-group">
-            <label for="clientCode">Client Code:</label>
-            <input type="text" class="form-control" id="clientCode" name="clientCode" required>
-        </div>
     </form>
     <button type="button" onclick="addClient()" class="btn btn-primary">Submit</button>
   
@@ -58,28 +54,24 @@
 
     function addClient() {
         var url = '@Url.Action("CreateClient")';
-        var clientData = {
-            Name: $("#clientName").val(),
-            ClientCode: $("#clientCode").val(),
-        };
 
-        $.post(url, clientData, function (data) {
-            // Clear existing rows
+        $.post(url, { Name: $("#clientName").val() }, function (data) {
+            
             $('#clientList').empty();
 
-            // Check if data is an array
+          
             data.forEach(function (cl) {
                 var newRow = $('<tr>')
                     .append($('<td>').text(cl.name))
                     .append($('<td>').text(cl.clientCode))
                     .append($('<td>').text(cl.contacts));
 
-                // Append the new row to the table body
+                
                 $('#clientList').append(newRow);
             });
 
             console.log('Success');
-            // Optionally reset the form inputs
+            
             $('#createClientForm')[0].reset();
         }).fail(function (xhr, status, error) {
             console.error('Error occurred: ' + error);
