@@ -40,7 +40,7 @@ namespace client_contact_management_system.Models
 
         public bool ContactExist(string email)
         {
-            return _context.contacts.Any(c => c.Email == email);
+            return _context.contacts.Any(c => c.Email.ToLower() == email.ToLower());
         }
 
         public LinkContactViewModel GetAllClientsAndContacts()
@@ -53,15 +53,22 @@ namespace client_contact_management_system.Models
             throw new NotImplementedException();
         }
 
-        public void LinkContact(Linked clientContactLink)
+        public void LinkClientContact(Linked clientContactLink)
         {
             _context.linkeds.Add(clientContactLink);
             _context.SaveChanges();
 
             var client = _context.clients.SingleOrDefault(c => c.Id == clientContactLink.ClietId);
+            var contact = _context.contacts.SingleOrDefault(c => c.Id == clientContactLink.ContactId);
 
             if (client != null) { 
                client.Contacts = _context.linkeds.Where(l => l.ClietId == client.Id).ToList().Count;
+                _context.SaveChanges();
+            }
+
+            if (contact != null)
+            {
+                contact.Clients = _context.linkeds.Where(l => l.ContactId == contact.Id).ToList().Count;
                 _context.SaveChanges();
             }
 

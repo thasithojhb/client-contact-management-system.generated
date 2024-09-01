@@ -64,18 +64,18 @@ public class HomeController : Controller
 
     public IActionResult LoadLinkContactModal()
     {
-        return PartialView("_LinkContact", model: _repository.GetAllClientsAndContacts());
+        return PartialView("_LinkClientContact", model: _repository.GetAllClientsAndContacts());
     }
 
     [HttpPost]
-    public IActionResult LinkContact(Linked linkedClientAndContact)
+    public IActionResult LinkClientContact(Linked linkedClientAndContact)
     {
         //if (_repository.ContactLinked(Contact.Email))
         //{
         //    ModelState.AddModelError("Email", "This email address is already in use.");
         //    return BadRequest(ModelState);
         //}
-        _repository.LinkContact(linkedClientAndContact);
+        _repository.LinkClientContact(linkedClientAndContact);
 
         return Json(_repository.GetLinks());
     }

@@ -16,9 +16,7 @@
 
         public bool ContactExist(string email);
 
-        public void LinkClients(Linked client);
-
-        public void LinkContact(Linked client);
+        public void LinkClientContact(Linked client);
 
         public bool ContactLinked(Linked client);
 

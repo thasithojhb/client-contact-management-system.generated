@@ -17,16 +17,17 @@
                 <tr>
                     <th>Name</th>
                     <th>Client Code</th>
-                    <th>Linked Contacts</th>
+                    <th class="text-center">Linked Contacts</th>
                 </tr>
             </thead>
             <tbody id="clientList">
                 @foreach (var client in Model)
                 {
                     <tr>
+                        <tb><input type="text" name="productName[]" placeholder="Product Name"></tb>
                         <td>@client.Name</td>
                         <td>@client.ClientCode</td>
-                        <td>@client.Contacts</td>
+                        <td class="text-center">@client.Contacts</td>
                     </tr>
                 }
             </tbody>
@@ -40,7 +41,7 @@
     </form>
     <button type="button" onclick="addClient()" class="btn btn-primary">Submit</button>
   
-    <div id="modalContainer"></div>
+    @* <div id="modalContainer"></div> *@
 </div>
 
 <script>

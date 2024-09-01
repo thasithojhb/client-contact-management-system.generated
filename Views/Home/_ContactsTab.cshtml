@@ -2,6 +2,9 @@
 
 <div>
     <h2>Contact Information</h2>
+    <button type="button" class="btn btn-primary" onclick="linkClient()" data-toggle="modal" id="linkContactButton">
+        Link Client
+    </button>
 
     @if (Model == null || !Model.Any())
     {
@@ -15,7 +18,7 @@
                     <th>Name</th>
                     <th>Surname</th>
                     <th>Email Adress</th>
-                    <th>Linked Clients</th>
+                    <th class="text-center">Linked Clients</th>
                 </tr>
             </thead>
             <tbody id="contactList">
@@ -25,7 +28,7 @@
                         <td>@contact.Name</td>
                         <td>@contact.Surname</td>
                         <td>@contact.Email</td>
-                        <td>@contact.Clients</td>
+                        <td class="text-center">@contact.Clients</td>
                     </tr>
                 }
             </tbody>
@@ -51,9 +54,19 @@
         </div>
     </form>
     <button type="button" onclick="addClient()" class="btn btn-primary">Submit</button>
+
+    @* <div id="modalContainer"></div> *@
 </div>
 
 <script>
+    function linkClient() {
+        var url = '@Url.Action("LoadLinkContactModal")';
+        $.get(url, function (data) {
+            $('#modalContainer').html(data);
+            $('#inputModal').modal('show');
+        });
+    };
+
     function addClient() {
         var url = '@Url.Action("CreateContact")';
         var clientData = {
@@ -69,7 +82,8 @@
                 var newRow = $('<tr>')
                     .append($('<td>').text(c.name))
                     .append($('<td>').text(c.surname))
-                    .append($('<td>').text(c.email));
+                    .append($('<td>').text(c.email))
+                    .append($('<td>').text(c.clients));
 
                 $('#contactList').append(newRow);
             });

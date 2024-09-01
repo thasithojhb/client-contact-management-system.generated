@@ -48,6 +48,7 @@
 
     function closeModal() {
         $('#inputModal').modal('hide');
+        $('#inputModal').remove();
     }
     function saveInput() {
         var clientId = $('#dropdown1').val();
@@ -58,8 +59,8 @@
             console.log('Selected Option 1: ' + clientId);
             console.log('Selected Option 2: ' + contactId);
 
-            var url = '@Url.Action("LinkContact")';
-            // Example: Sending data to the server via AJAX
+            var url = '@Url.Action("LinkClientContact")';
+
             $.post(url, { ClietId: clientId, ContactId: contactId }, function (response) {
                 alert('Data saved successfully!');
                 window.location.href = window.location.origin + window.location.pathname + "#client";
